@@ -38,9 +38,8 @@ public class Profile extends javax.swing.JFrame {
         panelPost.setLayout(new BoxLayout(panelPost, BoxLayout.Y_AXIS));
         updatePost('S',offset,limit);
         Users user = new Users(id);
-        name.setText(user.getName());
-        gender.setText(user.getGender());
-        bio.setText("<html><div style='width: 500px;'>" + user.getBio().replace("\n", "<br>") + "</div></html>");
+        name.setText("<html><div style='width: 400px;'>" + user.getName() + "("+user.getGender()+")" + "</div></html>");
+        bio.setText("<html><div style='width: 400px;'>" + user.getBio().replace("\n", "<br>") + "</div></html>");
         background.setText(user.getFaculty() + " - " + user.getUniversity());
         
         try (Connection conn = Connect.getConnection(); Statement stmt = conn.createStatement()) {
@@ -115,7 +114,6 @@ public class Profile extends javax.swing.JFrame {
         btnAddDiscussion = new rojerusan.RSMaterialButtonRectangle();
         jPanel5 = new javax.swing.JPanel();
         name = new javax.swing.JLabel();
-        gender = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
         bio = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -169,9 +167,6 @@ public class Profile extends javax.swing.JFrame {
         name.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         name.setText("CONTOHNAMA");
 
-        gender.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
-        gender.setText("(Gender)");
-
         background.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         background.setText("Faculty - University");
 
@@ -186,20 +181,15 @@ public class Profile extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bio, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(name)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(gender))
+                    .addComponent(name)
                     .addComponent(background))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(name)
-                    .addComponent(gender))
+                .addComponent(name)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(background)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -479,7 +469,6 @@ public class Profile extends javax.swing.JFrame {
     private rojerusan.RSMaterialButtonRectangle btnAddSharing;
     private rojerusan.RSMaterialButtonRectangle btnEditProfile;
     private javax.swing.JButton discussion;
-    private javax.swing.JLabel gender;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;

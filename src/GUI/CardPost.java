@@ -6,6 +6,7 @@ package GUI;
 
 import Classes.Posts;
 import Classes.Users;
+import static Lib.Func.timeAgo;
 import javax.swing.JFrame;
 
 /**
@@ -23,7 +24,7 @@ public class CardPost extends javax.swing.JPanel {
         initComponents();
         Users user = new Users(data.getUserId());
         title.setText(data.getTitle());
-        posted.setText("Diposting oleh " + user.getName());
+        posted.setText("Posted " + timeAgo(Long.valueOf(data.getDate())) + " by " + user.getName());
         content.setText("<html><div style='width: 584px;'>" + data.getContentTruncate().replace("\n", "<br>") + "</div></html>");
         comments.setText(data.totalComment() + " Comments");
     }

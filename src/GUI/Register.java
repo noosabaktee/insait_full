@@ -4,9 +4,12 @@
  */
 package GUI;
 
-import static Classes.LoginPreferences.loadId;
-import static Classes.LoginPreferences.saveLogin;
+import static Lib.LoginPreferences.loadId;
+import static Lib.LoginPreferences.saveLogin;
 import Config.Connect;
+import static Lib.Func.getSHA;
+import static Lib.Func.toHexString;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -230,6 +233,20 @@ public class Register extends javax.swing.JFrame {
 
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
         // TODO add your handling code here:
+        if(txtName.getText().length()> 50){
+            JOptionPane.showMessageDialog(null,
+            "Nama tidak boleh lebih dari 50 karakter",
+            "Warning",
+            JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if(txtPassword.getText().length() < 5){
+            JOptionPane.showMessageDialog(null,
+            "Password minimal 5 karakter",
+            "Warning",
+            JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
         Matcher m = p.matcher(txtEmail.getText());
         boolean matchFound = m.matches();
@@ -260,14 +277,24 @@ public class Register extends javax.swing.JFrame {
                 }
             }
             
+            String pw_encrypt = "";
+            try
+            { 
+                String pw = txtPassword.getText();
+                pw_encrypt = toHexString(getSHA(pw));
+            }
+            // For specifying wrong message digest algorithms
+            catch (NoSuchAlgorithmException e) {
+                System.out.println("Exception thrown for incorrect algorithm: " + e);
+            }
+            
             String insertUser = "INSERT INTO users (name, email, gender, password, university, faculty, date) VALUES('" + 
                     txtName.getText() + "','" + txtEmail.getText()
-                + "','" + txtGender.getSelectedItem() + "','" + txtPassword.getText() +  "','" + txtUniversity.getText() + "','" + txtFaculty.getText() + "','" + System.currentTimeMillis()+ "')";
+                + "','" + txtGender.getSelectedItem() + "','" + pw_encrypt +  "','" + txtUniversity.getText() + "','" + txtFaculty.getText() + "','" + System.currentTimeMillis()+ "')";
             int i = stmt.executeUpdate(insertUser);
             if (i > 0) {
-                String checkUser = "SELECT * FROM users WHERE email = '" + txtEmail.getText() +"' AND password = '" + txtPassword.getText() +"'";
+                String checkUser = "SELECT * FROM users WHERE email = '" + txtEmail.getText() +"' AND password = '" + pw_encrypt +"'";
                 ResultSet rsUser = stmt.executeQuery(checkUser);
-
                 while(rsUser.next()){
                     saveLogin(rsUser.getInt("id"));
                     Home hm = new Home();

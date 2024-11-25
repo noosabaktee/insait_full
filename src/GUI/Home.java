@@ -4,8 +4,8 @@
  */
 package GUI;
 
-import static Classes.LoginPreferences.loadId;
-import static Classes.LoginPreferences.logout;
+import static Lib.LoginPreferences.loadId;
+import static Lib.LoginPreferences.logout;
 import Classes.Posts;
 import Config.Connect;
 import java.awt.event.ActionEvent;
@@ -40,7 +40,6 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         panelPost.setLayout(new BoxLayout(panelPost, BoxLayout.Y_AXIS));
         updatePost(offset,limit,"");
-        
     }
 
     /**

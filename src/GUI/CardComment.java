@@ -5,7 +5,7 @@
 package GUI;
 
 import Classes.Comments;
-import static Classes.LoginPreferences.loadId;
+import static Lib.LoginPreferences.loadId;
 import Classes.Users;
 import javax.swing.JOptionPane;
 

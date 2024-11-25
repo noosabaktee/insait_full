@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import static Classes.LoginPreferences.loadId;
+import static Lib.LoginPreferences.loadId;
 import Classes.Users;
 import Config.Connect;
 import java.sql.Connection;
@@ -184,6 +184,20 @@ public class EditProfile extends javax.swing.JFrame {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
+        if(txtName.getText().length()> 50){
+            JOptionPane.showMessageDialog(null,
+            "Nama tidak boleh lebih dari 50 karakter",
+            "Warning",
+            JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if(txtPassword.getText().length() < 5){
+            JOptionPane.showMessageDialog(null,
+            "Password minimal 5 karakter",
+            "Warning",
+            JOptionPane.WARNING_MESSAGE);
+            return;
+        }
          if("".equals(txtName.getText()) || "".equals(txtPassword.getText()) || "".equals(txtUniversity.getText()) || "".equals(txtFaculty.getText())){
             JOptionPane.showMessageDialog(null,
             "Form selain bio harus terisi semua!",

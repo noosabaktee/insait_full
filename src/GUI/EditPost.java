@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import static Classes.LoginPreferences.loadId;
+import static Lib.LoginPreferences.loadId;
 import Classes.Sharing;
 import javax.swing.JOptionPane;
 

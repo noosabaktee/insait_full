@@ -5,11 +5,12 @@
 package GUI;
 
 import Classes.Comments;
-import static Classes.LoginPreferences.loadId;
+import static Lib.LoginPreferences.loadId;
 import Classes.Posts;
 import Classes.Sharing;
 import Classes.Users;
 import Config.Connect;
+import static Lib.Func.timeAgo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -58,7 +59,7 @@ public class Post extends javax.swing.JFrame {
         
         title.setText(post.getTitle());
         Users userPost = new Users(post.getUserId());
-        postedBy.setText("Diposting oleh " + userPost.getName());
+        postedBy.setText("Posted " + timeAgo(Long.valueOf(userPost.getDate())) + " by " + userPost.getName());
         post_user_id = userPost.getId();
         content.setText("<html>" + post.getContent().replace("\n", "<br>")+ "</html>");
         if(post.getComment() == 0){
@@ -239,11 +240,11 @@ public class Post extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(title)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(postedBy)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(content)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(formComment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(comments)

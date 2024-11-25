@@ -4,9 +4,12 @@
  */
 package GUI;
 
-import static Classes.LoginPreferences.loadId;
-import static Classes.LoginPreferences.saveLogin;
+import static Lib.LoginPreferences.loadId;
+import static Lib.LoginPreferences.saveLogin;
 import Config.Connect;
+import static Lib.Func.getSHA;
+import static Lib.Func.toHexString;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -187,8 +190,18 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.WARNING_MESSAGE);
             return;
         }
+        String pw_encrypt = "";
+        try
+        { 
+            String pw = txtPassword.getText();
+            pw_encrypt = toHexString(getSHA(pw));
+        }
+        // For specifying wrong message digest algorithms
+        catch (NoSuchAlgorithmException e) {
+            System.out.println("Exception thrown for incorrect algorithm: " + e);
+        }
         try (Connection conn = Connect.getConnection(); Statement stmt = conn.createStatement()) {
-            String checkUser = "SELECT * FROM users WHERE email = '" + txtEmail.getText() +"' AND password = '" + txtPassword.getText() +"'";
+            String checkUser = "SELECT * FROM users WHERE email = '" + txtEmail.getText() +"' AND password = '" + pw_encrypt +"'";
             ResultSet rsUser = stmt.executeQuery(checkUser);
             
             while(rsUser.next()){
