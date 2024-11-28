@@ -23,9 +23,9 @@ public class CardPost extends javax.swing.JPanel {
         this.data = data;
         initComponents();
         Users user = new Users(data.getUserId());
-        title.setText(data.getTitle());
+        title.setText("<html><div style='width: 580px;'>" + data.getTitle() + "</div></html>");
         posted.setText("Posted " + timeAgo(Long.valueOf(data.getDate())) + " by " + user.getName());
-        content.setText("<html><div style='width: 584px;'>" + data.getContentTruncate().replace("\n", "<br>") + "</div></html>");
+        content.setText("<html><div style='width: 584px;'>" + data.getContentTruncate() + "</div></html>");
         comments.setText(data.totalComment() + " Comments");
     }
 
@@ -76,15 +76,12 @@ public class CardPost extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comments)
-                            .addComponent(posted)
-                            .addComponent(title))
-                        .addGap(0, 443, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(comments, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(posted)
+                    .addComponent(title))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,7 +101,7 @@ public class CardPost extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

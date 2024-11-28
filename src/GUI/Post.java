@@ -56,7 +56,7 @@ public class Post extends javax.swing.JFrame {
             }
         }
         
-        title.setText(post.getTitle());
+        title.setText("<html><div style='width: 600px;'>" + post.getTitle() + "</div></html>");
         Users userPost = new Users(post.getUserId());
         postedBy.setText("Posted " + timeAgo(Long.valueOf(userPost.getDate())) + " by " + userPost.getName());
         post_user_id = userPost.getId();
@@ -355,7 +355,7 @@ public class Post extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Post(2).setVisible(true);
+//                new Post(2).setVisible(true);
             }
         });
     }

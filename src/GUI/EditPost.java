@@ -27,6 +27,8 @@ public class EditPost extends javax.swing.JFrame {
         post = new Sharing(id);
         txtTitle.setText(post.getTitle());
         txtContent.setText(post.getContent());
+        String comment = post.getComment() == 1 ? "True" : "False";
+        txtComment.setSelectedItem(comment);
     }
 
     /**

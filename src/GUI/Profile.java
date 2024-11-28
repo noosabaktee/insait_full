@@ -7,6 +7,7 @@ package GUI;
 import Classes.Posts;
 import Classes.Users;
 import Config.Connect;
+import static Lib.LoginPreferences.loadId;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,11 +35,16 @@ public class Profile extends javax.swing.JFrame {
     public Profile(int id) {
         this.user_id = id;
         initComponents();
+        if(this.user_id != loadId()){
+            btnEditProfile.setVisible(false);
+            btnAddSharing.setVisible(false);
+            btnAddDiscussion.setVisible(false);
+        }
         discussion.setBorder(new MatteBorder(0, 0, 0, 0, Color.BLACK));
         panelPost.setLayout(new BoxLayout(panelPost, BoxLayout.Y_AXIS));
         updatePost('S',limit);
         Users user = new Users(id);
-        name.setText("<html><div style='width: 400px;'>" + user.getName() + "("+user.getGender()+")" + "</div></html>");
+        name.setText("<html><div style='width: 400px;'>" + user.getName() + " ("+user.getGender()+")" + "</div></html>");
         bio.setText("<html><div style='width: 400px;'>" + user.getBio().replace("\n", "<br>") + "</div></html>");
         background.setText(user.getFaculty() + " - " + user.getUniversity());
         
@@ -465,7 +471,7 @@ public class Profile extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                new Profile(2).setVisible(true);
+//                new Profile(1).setVisible(true);
             }
         });
     }

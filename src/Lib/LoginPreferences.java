@@ -7,7 +7,7 @@ import java.util.prefs.Preferences;
 
 public class LoginPreferences {
 
-    private static final String PREFS_NODE = "com.example.login";
+    private static final String PREFS_NODE = "com.insait.login";
 
     // Menyimpan data login
     public static void saveLogin(int user_id) {

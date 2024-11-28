@@ -99,7 +99,7 @@ public class Posts {
     }
     
     public String getContentTruncate(){
-        int length = 400;
+        int length = 380;
         if (content.length() <= length) {
             return content;
         } else {

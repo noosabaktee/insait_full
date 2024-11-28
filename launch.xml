@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>D:\Downloads\insait-front-end\dist\UAS_INSAIT.jar</jar>
+  <outfile>D:\Downloads\insait-front-end\dist\Insait.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>true</restartOnCrash>
+  <manifest></manifest>
+  <icon></icon>
+  <singleInstance>
+    <mutexName>insait</mutexName>
+    <windowTitle></windowTitle>
+  </singleInstance>
+  <classPath>
+    <mainClass>GUI.Login</mainClass>
+    <cp>lib/AbsoluteLayout.jar</cp>
+    <cp>lib/RojeruSan.parte1.jar</cp>
+    <cp>lib/mysql-connector-j-9.1.0.jar</cp>
+  </classPath>
+  <jre>
+    <path>%JAVA_HOME%;%PATH%</path>
+    <requiresJdk>false</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion>1.7.0</minVersion>
+    <maxVersion></maxVersion>
+    <initialHeapSize>100</initialHeapSize>
+    <maxHeapSize>100</maxHeapSize>
+  </jre>
+</launch4jConfig>
