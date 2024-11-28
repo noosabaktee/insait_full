@@ -7,6 +7,7 @@ package GUI;
 import Classes.Comments;
 import static Lib.LoginPreferences.loadId;
 import Classes.Users;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,7 +27,7 @@ public class CardComment extends javax.swing.JPanel {
         if(user.getId() != loadId()){
             btnDelete.setVisible(false);
         }
-        name.setText(user.getName());
+        name.setText(user.getName() + " - " + user.getUniversity());
         content.setText("<html><div style='width: 550px;'>" + data.getContent().replace("\n", "<br>") + "</div></html>");
     }
 
@@ -51,6 +52,11 @@ public class CardComment extends javax.swing.JPanel {
 
         name.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         name.setText("SUBJECT");
+        name.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nameMouseClicked(evt);
+            }
+        });
 
         content.setText("ISI COMMENT");
 
@@ -137,6 +143,13 @@ public class CardComment extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
+        // TODO add your handling code here:
+        Profile profile = new Profile(data.getUserId());
+        profile.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        profile.setVisible(true);
+    }//GEN-LAST:event_nameMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

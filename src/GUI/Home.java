@@ -28,7 +28,7 @@ public class Home extends javax.swing.JFrame {
      * Creates new form HOME
      */
     int offset = 0;
-    int limit = 1;
+    int limit = 10;
     char type = 'S';
     public Home() {
         if(loadId() == 0){
@@ -39,7 +39,7 @@ public class Home extends javax.swing.JFrame {
         }
         initComponents();
         panelPost.setLayout(new BoxLayout(panelPost, BoxLayout.Y_AXIS));
-        updatePost(offset,limit,"");
+        updatePost(limit,"");
     }
 
     /**
@@ -58,21 +58,29 @@ public class Home extends javax.swing.JFrame {
                 panelPost.remove(buttonMore);
                 panelPost.revalidate();
                 panelPost.repaint();
-                offset++;
-                updatePost(offset,limit,"");
+                updatePost(limit,"");
             }
         });
         panelPost.add(buttonMore);
     }
     
-    private void updatePost(int offset, int limit, String search){
+    private void updatePost(int limit, String search){
         try (Connection conn = Connect.getConnection(); Statement stmt = conn.createStatement()) {
             String query = "SELECT * FROM posts WHERE type = '" + type + "' AND (title LIKE '%" + search +"%' OR content LIKE '%"+ search +"%') ORDER BY id DESC LIMIT " + offset + "," + limit;
             ResultSet rs = stmt.executeQuery(query);
+            int total = 0;
             while (rs.next()) {
+                offset++;
                 Posts post = new Posts(rs.getInt("id")); 
                 CardPost cp = new CardPost(post);
                 panelPost.add(cp);
+            }
+            String query_total = "SELECT COUNT(*) FROM posts WHERE type = '" + type + "' AND (title LIKE '%" + search +"%' OR content LIKE '%"+ search +"%') ORDER BY id DESC";
+            ResultSet rs_total = stmt.executeQuery(query_total);
+            while (rs_total.next()) {
+                total = rs_total.getInt(1);
+            }
+            if(offset < total){
                 buttonMore();
             }
         } catch (Exception e) {
@@ -350,25 +358,25 @@ public class Home extends javax.swing.JFrame {
     private void btnSharingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSharingActionPerformed
         // TODO add your handling code here:
         offset = 0;
-        limit = 1;
+        limit = 10;
         title.setText("Sharing");
         panelPost.removeAll();
         panelPost.revalidate();
         panelPost.repaint();
         type = 'S';
-        updatePost(offset,limit,"");
+        updatePost(limit,"");
     }//GEN-LAST:event_btnSharingActionPerformed
 
     private void btnDiscussionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiscussionActionPerformed
         // TODO add your handling code here:
         offset = 0;
-        limit = 1;
+        limit = 10;
         title.setText("Discussion");
         panelPost.removeAll();
         panelPost.revalidate();
         panelPost.repaint();
         type = 'D';
-        updatePost(offset,limit,"");
+        updatePost(limit,"");
     }//GEN-LAST:event_btnDiscussionActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -388,15 +396,16 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
          if("".equals(txtSearch.getText())){
             JOptionPane.showMessageDialog(null,
-            "Form search terisi!");
+            "Form search harus terisi!");
             return;
         }
-        limit = 1;
+        offset = 0;
+        limit = 10;
         String search = txtSearch.getText();
         panelPost.removeAll();
         panelPost.revalidate();
         panelPost.repaint();
-        updatePost(offset,limit,search);
+        updatePost(limit,search);
     }//GEN-LAST:event_btnSearchActionPerformed
 
     /**

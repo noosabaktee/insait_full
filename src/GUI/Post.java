@@ -36,9 +36,8 @@ public class Post extends javax.swing.JFrame {
     int post_user_id;
 //  for comment
     int offset = 0;
-    int limit = 1;
-    int newOffset = 0;
-    int commentAdd = 0;
+    int limit = 10;
+    int total_comment = 0;
     public Post(int id) {
 
         
@@ -47,9 +46,9 @@ public class Post extends javax.swing.JFrame {
         initComponents();
         panelComment.setLayout(new BoxLayout(panelComment, BoxLayout.Y_AXIS));
         updateComment(offset, limit);
-        pack();
         
         Posts post = new Posts(id);
+        total_comment = post.totalComment();
         if(post.getType() == 'S'){
             post = new Sharing(id);
             if(post.getComment() == 0){
@@ -68,7 +67,7 @@ public class Post extends javax.swing.JFrame {
             panelComment.revalidate();
             panelComment.repaint();
         }else{
-            comments.setText(post.totalComment() + " Komentar");
+            comments.setText(total_comment + " Comments");
         }
             
     }
@@ -83,12 +82,21 @@ public class Post extends javax.swing.JFrame {
          try (Connection conn = Connect.getConnection(); Statement stmt = conn.createStatement()) {
             String query = "SELECT * FROM comments WHERE post_id = " + id + " ORDER BY id DESC LIMIT " + offset + "," + limit;
             ResultSet rs = stmt.executeQuery(query);
+            int total = 0;
             while (rs.next()) {
+                this.offset++;
                 Comments comment = new Comments(rs.getInt("id")); 
                 CardComment cm = new CardComment(comment);
                 panelComment.add(cm);
             }
-            buttonMore();
+            String query_total = "SELECT COUNT(*) FROM comments WHERE post_id = " + id + " ORDER BY id DESC";
+            ResultSet rs_total = stmt.executeQuery(query_total);
+            while (rs_total.next()) {
+                total = rs_total.getInt(1);
+            }
+            if(offset < total){
+                buttonMore();
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -106,7 +114,6 @@ public class Post extends javax.swing.JFrame {
                 panelComment.remove(buttonMore);
                 panelComment.revalidate();
                 panelComment.repaint();
-                offset++;
                 updateComment(offset,limit);
             }
         });
@@ -296,8 +303,10 @@ public class Post extends javax.swing.JFrame {
                 panelComment.removeAll();
                 panelComment.revalidate();
                 panelComment.repaint();
-                updateComment(0,offset+2);
-                offset++;
+                updateComment(0,offset+1);
+                offset = 3;
+                total_comment++;
+                comments.setText(total_comment + " Comments");
             } else {
                 JOptionPane.showMessageDialog(null,
                 "Komentar gagal ditambahkan!!");
@@ -346,7 +355,7 @@ public class Post extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                new Post().setVisible(true);
+                new Post(2).setVisible(true);
             }
         });
     }

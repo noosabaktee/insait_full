@@ -29,14 +29,14 @@ public class Profile extends javax.swing.JFrame {
      * Creates new form PROFILE
      */
     int offset = 0;
-    int limit = 1;
+    int limit = 10;
     int user_id;
     public Profile(int id) {
         this.user_id = id;
         initComponents();
         discussion.setBorder(new MatteBorder(0, 0, 0, 0, Color.BLACK));
         panelPost.setLayout(new BoxLayout(panelPost, BoxLayout.Y_AXIS));
-        updatePost('S',offset,limit);
+        updatePost('S',limit);
         Users user = new Users(id);
         name.setText("<html><div style='width: 400px;'>" + user.getName() + "("+user.getGender()+")" + "</div></html>");
         bio.setText("<html><div style='width: 400px;'>" + user.getBio().replace("\n", "<br>") + "</div></html>");
@@ -69,14 +69,23 @@ public class Profile extends javax.swing.JFrame {
     }
 
     
-    private void updatePost(char type, int offset, int limit){
+    private void updatePost(char type, int limit){
         try (Connection conn = Connect.getConnection(); Statement stmt = conn.createStatement()) {
             String query = "SELECT * FROM posts WHERE type = '" + type + "' AND user_id = '"+ this.user_id +"' ORDER BY id DESC LIMIT " + offset + "," + limit;
             ResultSet rs = stmt.executeQuery(query);
+            int total = 0;
             while (rs.next()) {
+                offset++;
                 Posts post = new Posts(rs.getInt("id")); 
                 CardPostUser cp = new CardPostUser(post);
                 panelPost.add(cp);
+            }
+            String query_total = "SELECT COUNT(*) FROM posts WHERE type = '" + type + "' AND user_id = '"+ this.user_id +"' ORDER BY id DESC";
+            ResultSet rs_total = stmt.executeQuery(query_total);
+            while (rs_total.next()) {
+                total = rs_total.getInt(1);
+            }
+            if(offset < total){
                 buttonMore();
             }
         } catch (Exception e) {
@@ -95,8 +104,7 @@ public class Profile extends javax.swing.JFrame {
                 panelPost.remove(buttonMore);
                 panelPost.revalidate();
                 panelPost.repaint();
-                offset++;
-                updatePost('S',offset,limit);
+                updatePost('S',limit);
             }
         });
         panelPost.add(buttonMore);
@@ -384,11 +392,11 @@ public class Profile extends javax.swing.JFrame {
     private void discussionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discussionActionPerformed
         // TODO add your handling code here:
         offset = 0;
-        limit = 1;
+        limit = 10;
         panelPost.removeAll();
         panelPost.revalidate();
         panelPost.repaint();
-        updatePost('D',offset,limit);
+        updatePost('D',limit);
         discussion.setBorder(new MatteBorder(0, 0, 2, 0, Color.BLACK));
         sharing.setBorder(new MatteBorder(0, 0, 0, 0, Color.BLACK));
     }//GEN-LAST:event_discussionActionPerformed
@@ -396,11 +404,11 @@ public class Profile extends javax.swing.JFrame {
     private void sharingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sharingActionPerformed
         // TODO add your handling code here:
         offset = 0;
-        limit = 1;
+        limit = 10;
         panelPost.removeAll();
         panelPost.revalidate();
         panelPost.repaint();
-        updatePost('S',offset,limit);
+        updatePost('S',limit);
         discussion.setBorder(new MatteBorder(0, 0, 0, 0, Color.BLACK));
         sharing.setBorder(new MatteBorder(0, 0, 2, 0, Color.BLACK));
     }//GEN-LAST:event_sharingActionPerformed
@@ -457,7 +465,7 @@ public class Profile extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                new Profile().setVisible(true);
+//                new Profile(2).setVisible(true);
             }
         });
     }
